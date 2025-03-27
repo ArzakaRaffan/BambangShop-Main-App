@@ -62,11 +62,11 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement unsubscribe function in Notification controller.`
     -   [x] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
-    -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
-    -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
-    -   [ ] Commit: `Implement publish function in Program service and Program controller.`
-    -   [ ] Commit: `Edit Product service methods to call notify after create/delete.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
+    -   [x] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
+    -   [x] Commit: `Implement notify function in Notification service to notify each Subscriber.`
+    -   [x] Commit: `Implement publish function in Program service and Program controller.`
+    -   [x] Commit: `Edit Product service methods to call notify after create/delete.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
 
 ## Your Reflections
 ### Mandatory (Publisher) Reflections
@@ -98,3 +98,14 @@ Jika hanya menggunakan Model, berarti Model harus menangani logika bisnis, penga
 Sebelumnya, saya sudah pernah sedikit mencoba dan mengeksplorasi Postman. Postman sangat esensial karena dapat memudahkan saya dalam mengirim HTTP Request dan melihat reponse dari web dengan sangat mudah. Postman dalam App ini dapat digunakan untuk mengetes API Subscriber yang dapat memvalidasi flow dari data dan juga response nya. Fitur collections adalah salah satu fitur yang paling membantu saya karena dapat membantu saya dalam mengelola API Request dan mengatur variabel-variabel seperti base urls, auth tokens, dan lain-lain.
 
 #### Reflection Publisher-3
+>Observer Pattern has two variations: Push model (publisher pushes data to subscribers) and Pull model (subscribers pull data from publisher). In this tutorial case, which variation of Observer Pattern that we use?
+
+Pada project ini, observer pattern yang digunakan adalah Push Model yang diimplementasikan via notification dimana publisher mengirimkan notifikasi kepada subscribers setiap kali ada modifikasin terhadap sebuah produk. Hal ini dapat terlihat dari terdapatnya kode `NotificationService::notify()` yang akan mengirimkan notifikasi secara langsung kepada subscribers.
+
+>What are the advantages and disadvantages of using the other variation of Observer Pattern for this tutorial case? (example: if you answer Q1 with Push, then imagine if we used Pull)
+
+Jika menggunakan pull, terdapat beberapa keuntungan seperti berkurangnya redundansi transfer data, lebih banyak kontrol pada observer, dan dapat menangani data besar secara efektif dan efisien. Sementara disadvantages penggunaan pull adalah kompleksitas yang lebih tinggi, adanya delay pada uopdates, dan peningkatan request yang dapat menyebabkan overloading system.
+
+>Explain what will happen to the program if we decide to not use multi-threading in the notification process.
+
+Hal yang akan terjadi jika program tidak menggunakan multi-thread adalah slow performance dimana notifikasi akan diproses satu per satu. Jika subscriber banyak, maka performance akan berjalan lambat karena proses tidak dijalankan secara bersamaan. Namun dengan multi-threading, proses notifikasi dapat dijalankan secara paralel sehingga tidak mempengaruhi aplikasi utama dan juga dapat meningkatkan performance dari sistem.
