@@ -45,15 +45,15 @@ You can install Postman via this website: https://www.postman.com/downloads/
     (You might want to use `cargo check` if you only need to verify your work without running the app.)
 
 ## Mandatory Checklists (Publisher)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
+-   [x] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Subscriber model struct.`
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create Subscriber database and Subscriber repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Subscriber repository.`
-    -   [ ] Commit: `Implement list_all function in Subscriber repository.`
-    -   [ ] Commit: `Implement delete function in Subscriber repository.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
+    -   [x] Commit: `Create Subscriber model struct.`
+    -   [x] Commit: `Create Notification model struct.`
+    -   [x] Commit: `Create Subscriber database and Subscriber repository struct skeleton.`
+    -   [x] Commit: `Implement add function in Subscriber repository.`
+    -   [x] Commit: `Implement list_all function in Subscriber repository.`
+    -   [x] Commit: `Implement delete function in Subscriber repository.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
     -   [ ] Commit: `Create Notification service struct skeleton.`
     -   [ ] Commit: `Implement subscribe function in Notification service.`
@@ -69,11 +69,20 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [ ] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
 
 ## Your Reflections
-This is the place for you to write reflections:
-
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
+>In the Observer pattern diagram explained by the Head First Design Pattern book, Subscriber is defined as an interface. Explain based on your understanding of Observer design patterns, do we still need an interface (or trait in Rust) in this BambangShop case, or a single Model struct is enough?
+
+Dalam BambangShop main app, subscriber hanya memiliki satu kelas sehingga penggunaan single model struct saja sudah cukup dalam pengimplementasian berdasarkan observer pattern karena tidak ada perbedaan perilaku pada subscriber. Namun jika subscriber memiliki lebih dari satu kelas dengan perilaku yang berbeda, alangkah baiknya untuk mengimplementasikan interface (atau trait di Rust) agar kode lebih modular dan memungkinkan penambahan subscriber lain tanpa mengubah kode inti
+
+>id in Program and url in Subscriber is intended to be unique. Explain based on your understanding, is using Vec (list) sufficient or using DashMap (map/dictionary) like we currently use is necessary for this case?
+
+Menurut saya, penggunaan DashMap seperti yang digunakan sekarang sudah cukup karena app ini kemungkinan memiliki data yang sedikit dan jarang dicari. DashMap juga cocok karena dalam segi kompleksitas, pencarian dan penghapusan memerlukan kompleksitas O(1) dibandingkan dengan Vec yang memiliki kompleksitas pencarian O(n) (worst case) dan juga kompleksitas penghapusan O(n) karena harus menggeser elemen setelahnya.
+
+>When programming using Rust, we are enforced by rigorous compiler constraints to make a thread-safe program. In the case of the List of Subscribers (SUBSCRIBERS) static variable, we used the DashMap external library for thread safe HashMap. Explain based on your understanding of design patterns, do we still need DashMap or we can implement Singleton pattern instead?
+
+Dalam `repository/subscriber.rs` sudah diimplementasikan `lazy_static!` yang membuat satu static instance dari DashMap yang mana merupakan cara pengimplementasian singleton patter sehingga dalam App ini, DashMap dan Singleton pattern diimplementasikan secara bersamaan. Lalu DashMap juga sudah cukup untuk menangani concurrency secara aman dan efisien karena sudah Thread-safe sehingga kinerja thread sudah dijamin aman.
 
 #### Reflection Publisher-2
 
